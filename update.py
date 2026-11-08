@@ -42,6 +42,7 @@ def analyse(ev, code):
         res.append({"name": name, "p": round(p, 4), "best": odds, "book": book, "ev": ev_val})
     return {"league": code, "start": ev["commence_time"], "home": ev["home_team"],
             "away": ev["away_team"], "books": len(ev["bookmakers"]), "outcomes": res}
+
 matches, ok = [], 0
 for sport, code in SPORTS.items():
     try:
