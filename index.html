@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="fr-CA"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Radar de value</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#101733;--mute:#626b8a;--line:#e2e5f2;--acc:#4c5bff;--ok:#0c8f74;--okbg:#d9f3ec;--no:#c8452f;--nobg:#fde6e1;--wn:#9a6200;--wnbg:#fdf0d2;color-scheme:light dark}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0f24;--card:#121a3a;--ink:#eef0ff;--mute:#9aa3cc;--line:#232c58;--acc:#8a95ff;--ok:#4fd9b4;--okbg:#0f3a33;--no:#ff9a86;--nobg:#3d1d22;--wn:#f4c15d;--wnbg:#3b2f12}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.45}
+main{max-width:640px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(40px + env(safe-area-inset-bottom,0px))}
+h1{font:800 36px/1.05 'Bricolage Grotesque',system-ui,sans-serif;margin:0 0 4px}
+.meta{font-size:13px;color:var(--mute)}.meta b{color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0}
+.chips button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 13px;font:600 13px 'DM Sans',system-ui,sans-serif;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+select{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:600 15px 'DM Sans',system-ui,sans-serif;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+.feat{background:var(--ink);color:var(--bg);border-radius:22px;padding:16px;margin:10px 0}
+.feat .t{font:800 20px/1.15 'Bricolage Grotesque',system-ui,sans-serif;margin:3px 0}
+.row{border-top:1px dashed var(--line);padding:12px 0 12px 10px;border-left:3px solid var(--ok)}
+.row:first-child{border-top:0}.rowM{border-left-color:var(--wn)}.rowR{border-left-color:var(--no)}
+.top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.name{font:800 16px 'Bricolage Grotesque',system-ui,sans-serif}
+.tag{font-size:12px;font-weight:800;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.tS{background:var(--okbg);color:var(--ok)}.tM{background:var(--wnbg);color:var(--wn)}.tR{background:var(--nobg);color:var(--no)}
+.bar{height:6px;border-radius:5px;background:var(--line);margin:8px 0}.bar i{display:block;height:100%;border-radius:5px;background:var(--acc)}
+.val{margin-top:6px;background:var(--okbg);color:var(--ok);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700}
+</style></head><body><main>
+<h1>Radar de value</h1><p class="meta" id="up">Chargement…</p>
+<div id="chips"></div>
+<select id="mc"><option value="">Toutes les catégories</option><option value="S">Sûr (70 % et plus)</option><option value="M">Modéré (50 à 70 %)</option><option value="R">Risqué (sous 50 %)</option></select>
+<div id="hero"></div>
+<div class="card"><div id="ml"></div></div>
+<p class="meta">Probabilité = moyenne des bookmakers sans leur marge. « Value possible » veut dire qu’un bookmaker paie plus que cette moyenne, pas que le pari va passer. Les cotes viennent de bookmakers européens, pas de Mise-o-jeu. Besoin d’aide? Jeu : aide et référence, 1 800 461-0140.</p>
+</main><script>
+var LG={P:'Premier League',E:'La Liga',I:'Serie A',B:'Bundesliga',F:'Ligue 1',N:'NBA'},TG={S:'Sûr',M:'Modéré',R:'Risqué'},D=[],FAV=[];
+try{FAV=JSON.parse(localStorage.getItem('rv_fav')||'[]')}catch(e){}
+function $(i){return document.getElementById(i)}
+function f(x,d){return x.toLocaleString('fr-CA',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function nm(n){return n==='Draw'?'Nul':esc(n)}
+function chips(){var h='<div class="chips">';Object.keys(LG).forEach(function(k){h+='<button data-k="'+k+'" aria-pressed="'+(FAV.indexOf(k)>-1)+'">'+LG[k]+'</button>'});$('chips').innerHTML=h+'</div>'}
+$('chips').onclick=function(e){var k=e.target.getAttribute('data-k');if(!k)return;var i=FAV.indexOf(k);if(i>-1)FAV.splice(i,1);else FAV.push(k);try{localStorage.setItem('rv_fav',JSON.stringify(FAV))}catch(x){}chips();render()};
+$('mc').onchange=render;
+function render(){
+  var fc=$('mc').value,L=[];
+  D.forEach(function(m){
+    var fav=m.outcomes.reduce(function(a,b){return b.p>a.p?b:a}),c=fav.p>=.7?'S':fav.p>=.5?'M':'R';
+    if((!FAV.length||FAV.indexOf(m.league)>-1)&&(!fc||c===fc))L.push({m:m,fav:fav,c:c});
+  });
+  L.sort(function(a,b){return b.fav.p-a.fav.p});
+  var t=L[0];
+  $('hero').innerHTML=t?'<div class="feat"><span class="meta" style="color:inherit;opacity:.8">Le plus sûr de ta sélection</span><div class="t">'+esc(t.m.home)+' vs '+esc(t.m.away)+'</div><span class="meta" style="color:inherit;opacity:.8">Favori : '+nm(t.fav.name)+' à '+f(t.fav.p*100,0)+' %. Meilleure cote : '+f(t.fav.best,2)+'</span></div>':'';
+  $('ml').innerHTML=L.length?L.map(function(x){
+    var m=x.m,v=m.outcomes.reduce(function(a,b){return b.ev>a.ev?b:a}),
+    when=new Date(m.start).toLocaleString('fr-CA',{weekday:'short',hour:'numeric',minute:'2-digit'}),
+    pr=m.outcomes.map(function(o){return nm(o.name)+' '+f(o.p*100,0)+' %'}).join(' · ');
+    return '<div class="row row'+x.c+'"><div class="top"><span class="name">'+esc(m.home)+' vs '+esc(m.away)+'</span><span class="tag t'+x.c+'">'+TG[x.c]+'</span></div><div class="meta">'+LG[m.league]+', '+esc(when)+'</div><div class="bar"><i style="width:'+x.fav.p*100+'%"></i></div><div class="meta">'+pr+'<br>Meilleure cote sur '+nm(x.fav.name)+' : <b>'+f(x.fav.best,2)+'</b> ('+esc(x.fav.book)+')</div>'+(v.ev>.02?'<div class="val">Value possible : '+nm(v.name)+' à '+f(v.best,2)+' chez '+esc(v.book)+' (+'+f(v.ev*100,1)+' %)</div>':'')+'</div>';
+  }).join(''):'<p class="meta">Aucun match pour ce filtre.</p>';
+}
+chips();
+fetch('data.json?'+Date.now()).then(function(r){return r.json()}).then(function(j){
+  D=j.matches;$('up').textContent='Mis à jour le '+new Date(j.updated).toLocaleString('fr-CA',{dateStyle:'medium',timeStyle:'short'});render();
+}).catch(function(){$('up').textContent='Pas encore de données. Lance la mise à jour dans GitHub (onglet Actions).'});
+</script></body></html>
