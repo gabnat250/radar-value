@@ -52,7 +52,7 @@ function render(){
   $('hero').innerHTML=t?'<div class="feat"><span class="meta" style="color:inherit;opacity:.8">Le plus sûr de ta sélection</span><div class="t">'+esc(t.m.home)+' vs '+esc(t.m.away)+'</div><span class="meta" style="color:inherit;opacity:.8">Favori : '+nm(t.fav.name)+' à '+f(t.fav.p*100,0)+' %. Meilleure cote : '+f(t.fav.best,2)+'</span></div>':'';
   $('ml').innerHTML=L.length?L.map(function(x){
     var m=x.m,v=m.outcomes.reduce(function(a,b){return b.ev>a.ev?b:a}),
-    when=new Date(m.start).toLocaleString('fr-CA',{weekday:'short',hour:'numeric',minute:'2-digit'}),
+    when=new Date(m.start).toLocaleString('fr-CA',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}),
     pr=m.outcomes.map(function(o){return nm(o.name)+' '+f(o.p*100,0)+' %'}).join(' · ');
     return '<div class="row row'+x.c+'"><div class="top"><span class="name">'+esc(m.home)+' vs '+esc(m.away)+'</span><span class="tag t'+x.c+'">'+TG[x.c]+'</span></div><div class="meta">'+LG[m.league]+', '+esc(when)+'</div><div class="bar"><i style="width:'+x.fav.p*100+'%"></i></div><div class="meta">'+pr+'<br>Meilleure cote sur '+nm(x.fav.name)+' : <b>'+f(x.fav.best,2)+'</b> ('+esc(x.fav.book)+')</div>'+(v.ev>.02?'<div class="val">Value possible : '+nm(v.name)+' à '+f(v.best,2)+' chez '+esc(v.book)+' (+'+f(v.ev*100,1)+' %)</div>':'')+'</div>';
   }).join(''):'<p class="meta">Aucun match pour ce filtre.</p>';
