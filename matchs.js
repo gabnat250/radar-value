@@ -1,5 +1,5 @@
 (function(){
-var S=null,LG={'Premier League':'P','La Liga':'E','Serie A':'I','Bundesliga':'B','Ligue 1':'F'};
+var S=null,LG={'Premier League':'P','La Liga':'E','Serie A':'I','Bundesliga':'B','Ligue 1':'F','Ligue des champions':'C'};
 var STOP='fc afc acf cf ac as ss ssc us sc sv fsv tsg rc rcd ud ca club de la le the of aj es ogc osc sco stade calcio cfc bc bv fk and'.split(' ');
 function tk(s){
   s=s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,' and ').replace(/rennes/g,'rennais').replace(/[^a-z0-9 ]/g,' ');
