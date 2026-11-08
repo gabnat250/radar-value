@@ -20,9 +20,11 @@ jobs:
         continue-on-error: true
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      - run: python news.py
+        continue-on-error: true
       - run: |
           git config user.name "radar-bot"
           git config user.email "radar-bot@users.noreply.github.com"
-          git add data.json stats.json
+          git add data.json stats.json news.json
           git commit -m "Mise à jour des données" || exit 0
           git push
