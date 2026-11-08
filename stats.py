@@ -2,7 +2,7 @@ import json, os, time, urllib.request, urllib.error
 from datetime import datetime, timezone
 
 KEY = os.environ.get("API_FOOTBALL_KEY", "").strip()
-LEAGUES = {"P": "PL", "E": "PD", "I": "SA", "B": "BL1", "F": "FL1"}
+LEAGUES = {"P": "PL", "E": "PD", "I": "SA", "B": "BL1", "F": "FL1", "C": "CL"}
 
 def get(code):
     req = urllib.request.Request(f"https://api.football-data.org/v4/competitions/{code}/standings",
