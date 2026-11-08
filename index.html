@@ -107,7 +107,7 @@ label{display:block;font-size:12px;color:var(--mute);font-weight:600}
 </main>
 <div class="tabs"><button id="tM" class="on" onclick="tab('M')">Matchs</button><button id="tA" onclick="tab('A')">Analyse</button><button id="tS" onclick="tab('S')">Suivi</button></div>
 <script>
-var LG={P:'Premier League',E:'La Liga',I:'Serie A',B:'Bundesliga',F:'Ligue 1',N:'NBA'},TG={S:'Sûr',M:'Modéré',R:'Risqué'},D=[],sp='F',last=[];
+var LG={P:'Premier League',E:'La Liga',I:'Serie A',B:'Bundesliga',F:'Ligue 1',N:'NBA',C:'Ligue des champions',U:'Europa League'},TG={S:'Sûr',M:'Modéré',R:'Risqué'},D=[],sp='F',last=[];
 function $(i){return document.getElementById(i)}
 function n(i){return parseFloat($(i).value)}
 function f(x,d){return x.toLocaleString('fr-CA',{minimumFractionDigits:d,maximumFractionDigits:d})}
