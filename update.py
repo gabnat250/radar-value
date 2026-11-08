@@ -8,7 +8,7 @@ SPORTS = {
     "soccer_italy_serie_a": "I",
     "soccer_germany_bundesliga": "B",
     "soccer_france_ligue_one": "F",
-    "basketball_nba": "N",
+    "basketball_nba": "N", "soccer_uefa_champs_league": "C", "soccer_uefa_europa_league": "U",
 }
 
 def fetch(sport):
