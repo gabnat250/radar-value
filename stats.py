@@ -1,4 +1,4 @@
-import json, os, urllib.request
+import json, os, urllib.request, urllib.error
 from datetime import datetime, timezone
 
 KEY = os.environ.get("API_FOOTBALL_KEY", "").strip()
@@ -8,13 +8,15 @@ SEASON = 2026
 def get(league):
     url = f"https://v3.football.api-sports.io/standings?league={league}&season={SEASON}"
     req = urllib.request.Request(url, headers={"x-apisports-key": KEY, "User-Agent": "radar-value"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:300]}")
 
 out, errors = {}, []
-if not KEY:
-    errors.append("Cle API_FOOTBALL_KEY vide ou absente")
-else:
+errors.append(f"longueur de la cle: {len(KEY)}")
+if KEY:
     for code, lid in LEAGUES.items():
         try:
             d = get(lid)
@@ -29,6 +31,7 @@ else:
                          for r in rows]
         except Exception as e:
             errors.append(f"{code}: {e}")
+            break
 
 print("Erreurs:", errors)
 with open("stats.json", "w", encoding="utf-8") as f:
