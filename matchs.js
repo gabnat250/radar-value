@@ -15,16 +15,37 @@ function find(name,T){
 function ord(r){return r===1?'1er':r+'e'}
 function f2(x){return x.toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function line(r){return '<b>'+esc(r.team.replace(/ (FC|AFC|CF)$/,''))+'</b> : '+ord(r.rank)+', '+r.pts+' pts, '+f2(r.gf/r.played)+' marqués et '+f2(r.ga/r.played)+' encaissés par match'}
+function nm(t){return t.replace(/ (FC|AFC|CF)$/,'')}
+function line(r){return '<b>'+esc(nm(r.team))+'</b> : '+ord(r.rank)+', '+r.pts+' pts, '+f2(r.gf/r.played)+' marqués et '+f2(r.ga/r.played)+' encaissés par match'}
+function why(row,h,a,hn,an){
+  var m=null;
+  row.querySelectorAll('.meta').forEach(function(x){if(x.textContent.indexOf('Meilleure cote')>-1)m=x});
+  if(!m)return '';
+  var best=null;
+  m.textContent.split('Meilleure cote')[0].split(' · ').forEach(function(s){
+    var x=s.trim().match(/^(.*) (\d+) %$/);
+    if(x&&(!best||+x[2]>best.p))best={n:x[1].trim(),p:+x[2]};
+  });
+  if(!best||best.n==='Nul')return '';
+  var homeFav=best.n===hn,F=homeFav?h:a,O=homeFav?a:h;
+  var s='<b>'+esc(nm(F.team))+'</b> est favori'+(homeFav?' et joue à domicile.':' malgré le déplacement.');
+  if(F.rank<O.rank){
+    s+=' Il est '+ord(F.rank)+' au classement contre '+ord(O.rank)+', avec '+f2(F.pts/F.played)+' pts par match contre '+f2(O.pts/O.played)+'. Il marque '+f2(F.gf/F.played)+' buts par match et son adversaire en encaisse '+f2(O.ga/O.played)+'.';
+  }else{
+    s+=' Les stats de la saison avantagent plutôt '+esc(nm(O.team))+' ('+ord(O.rank)+' contre '+ord(F.rank)+'). Le marché tient peut-être compte de facteurs absents ici, comme les blessures ou la forme récente.';
+  }
+  s+=' Saison en cours : '+Math.min(F.played,O.played)+' matchs joués, donc ces chiffres bougent encore.';
+  return '<div style="margin:6px 0 4px;padding:8px 10px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--mute)">'+s+'</div>';
+}
 function enrich(){
   var L=document.getElementById('ml');if(!S||!L)return;
   L.querySelectorAll('.row').forEach(function(row){
     if(row.getAttribute('data-e'))return;row.setAttribute('data-e','1');
-    var meta=row.querySelector('.meta'),nm=row.querySelector('.name');if(!meta||!nm)return;
+    var meta=row.querySelector('.meta'),nme=row.querySelector('.name');if(!meta||!nme)return;
     var key=LG[meta.textContent.split(',')[0].trim()],T=key&&S.leagues&&S.leagues[key];if(!T)return;
-    var p=nm.textContent.split(' vs ');if(p.length!==2)return;
+    var p=nme.textContent.split(' vs ');if(p.length!==2)return;
     var h=find(p[0],T),a=find(p[1],T);if(!h||!a||!h.played||!a.played)return;
-    meta.insertAdjacentHTML('afterend','<div class="meta" style="margin:2px 0 4px">'+line(h)+'<br>'+line(a)+'</div>');
+    meta.insertAdjacentHTML('afterend','<div class="meta" style="margin:2px 0 4px">'+line(h)+'<br>'+line(a)+'</div>'+why(row,h,a,p[0],p[1]));
   });
 }
 var L=document.getElementById('ml');
