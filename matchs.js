@@ -32,7 +32,7 @@ function why(row,h,a,hn,an){
   if(F.rank<=O.rank-3){
     s+=' Il est '+ord(F.rank)+' au classement contre '+ord(O.rank)+', avec '+f2(F.pts/F.played)+' pts par match contre '+f2(O.pts/O.played)+'. Il marque '+f2(F.gf/F.played)+' buts par match et son adversaire en encaisse '+f2(O.ga/O.played)+'.';
   }else{
-    s+=' Les stats de la saison avantagent plutôt '+esc(nm(O.team))+' ('+ord(O.rank)+' contre '+ord(F.rank)+'). Le marché tient peut-être compte de facteurs absents ici, comme les blessures ou la forme récente.';
+    if(Math.abs(F.rank-O.rank)<3)s+=' Les deux équipes sont proches au classement ('+ord(F.rank)+' et '+ord(O.rank)+'), donc le favori vient surtout du marché.';else s+=' Les stats de la saison avantagent plutôt '+esc(nm(O.team))+' ('+ord(O.rank)+' contre '+ord(F.rank)+'). Le marché tient peut-être compte de facteurs absents ici, comme les blessures ou la forme récente.';
   }
   s+=' Saison en cours : '+Math.min(F.played,O.played)+' matchs joués, donc ces chiffres bougent encore.';
   return '<div class="dt" style="margin:6px 0 4px;padding:8px 10px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--mute)">'+s+'</div>';
