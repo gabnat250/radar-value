@@ -191,4 +191,4 @@ chips();rb();
 fetch('data.json?'+Date.now()).then(function(r){return r.json()}).then(function(j){
   D=j.matches;$('up').textContent='Mis à jour le '+new Date(j.updated).toLocaleString('fr-CA',{dateStyle:'medium',timeStyle:'short'});render();
 }).catch(function(){$('up').textContent='Pas encore de données. Lance la mise à jour dans GitHub (onglet Actions).'});
-</script><script src="equipes.js"></script><script src="matchs.js"></script></body></html>
+</script><script src="equipes.js"></script><script src="matchs.js"></script><script src="news.js"></script></script></body></html>
