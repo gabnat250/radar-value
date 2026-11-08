@@ -30,4 +30,4 @@ for code, lid in LEAGUES.items():
 print("Erreurs:", errors)
 if out:
     with open("stats.json", "w", encoding="utf-8") as f:
-        json.dump({"updated": datetime.now(timezone.utc).isoformat(), "leagues": out, "errors": errors}, f, ensure_ascii=False)
+    json.dump({"updated": datetime.now(timezone.utc).isoformat(), "leagues": out, "errors": errors}, f, ensure_ascii=False)
