@@ -29,7 +29,7 @@ function why(row,h,a,hn,an){
   if(!best||best.n==='Nul')return '';
   var homeFav=best.n===hn,F=homeFav?h:a,O=homeFav?a:h;
   var s='<b>'+esc(nm(F.team))+'</b> est favori'+(homeFav?' et joue à domicile.':' malgré le déplacement.');
-  if(F.rank<O.rank){
+  if(F.rank<=O.rank-3){
     s+=' Il est '+ord(F.rank)+' au classement contre '+ord(O.rank)+', avec '+f2(F.pts/F.played)+' pts par match contre '+f2(O.pts/O.played)+'. Il marque '+f2(F.gf/F.played)+' buts par match et son adversaire en encaisse '+f2(O.ga/O.played)+'.';
   }else{
     s+=' Les stats de la saison avantagent plutôt '+esc(nm(O.team))+' ('+ord(O.rank)+' contre '+ord(F.rank)+'). Le marché tient peut-être compte de facteurs absents ici, comme les blessures ou la forme récente.';
