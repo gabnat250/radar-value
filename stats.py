@@ -30,7 +30,7 @@ for i, (code, fd) in enumerate(LEAGUES.items()):
         out[code] = [{"rank": r["position"], "team": r["team"]["name"], "pts": r["points"],
                       "played": r["playedGames"], "w": r["won"], "d": r["draw"], "l": r["lost"],
                       "gf": r["goalsFor"], "ga": r["goalsAgainst"],
-                      "form": (r.get("form") or "").replace(",", ""),
+                      "form": (r.get("form") or "").replace(",", ""), "crest": r["team"].get("crest"),
                       "home": split(home.get(tid)), "away": split(away.get(tid))}
                      for tid, r in sorted(tot.items(), key=lambda x: x[1]["position"])]
     except Exception as e:
