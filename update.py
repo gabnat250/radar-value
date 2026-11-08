@@ -1,7 +1,7 @@
 import json, os, urllib.request, urllib.parse
 from datetime import datetime, timezone
 
-KEY = os.environ["ODDS_API_KEY"]
+KEY = os.environ["ODDS_API_KEY"].strip()
 SPORTS = {
     "soccer_epl": "P",
     "soccer_spain_la_liga": "E",
