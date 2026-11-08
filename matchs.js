@@ -45,7 +45,7 @@ function enrich(){
     var key=LG[meta.textContent.split(',')[0].trim()],T=key&&S.leagues&&S.leagues[key];if(!T)return;
     var p=nme.textContent.split(' vs ');if(p.length!==2)return;
     var h=find(p[0],T),a=find(p[1],T);if(!h||!a||!h.played||!a.played)return;
-    meta.insertAdjacentHTML('afterend','<div class="meta" style="margin:2px 0 4px">'+line(h)+'<br>'+line(a)+'</div>'+why(row,h,a,p[0],p[1]));
+    meta.insertAdjacentHTML('afterend','<div class="meta dt" style="margin:2px 0 4px">'+line(h)+'<br>'+line(a)+'</div>'+why(row,h,a,p[0],p[1]));
   });
 }
 var L=document.getElementById('ml');
