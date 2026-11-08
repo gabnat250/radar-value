@@ -43,7 +43,7 @@ $('chips').onclick=function(e){var k=e.target.getAttribute('data-k');if(!k)retur
 $('mc').onchange=render;
 function render(){
   var fc=$('mc').value,L=[];
-  D.forEach(function(m){
+  D.forEach(function(m){if(new Date(m.start)<new Date())return;
     var fav=m.outcomes.reduce(function(a,b){return b.p>a.p?b:a}),c=fav.p>=.7?'S':fav.p>=.5?'M':'R';
     if((!FAV.length||FAV.indexOf(m.league)>-1)&&(!fc||c===fc))L.push({m:m,fav:fav,c:c});
   });
