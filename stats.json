@@ -1,1 +1,1 @@
-{"updated": "2026-11-08T04:03:07.125446+00:00", "leagues": {}, "errors": ["P: HTTP Error 403: Forbidden", "E: HTTP Error 403: Forbidden", "I: HTTP Error 403: Forbidden", "B: HTTP Error 403: Forbidden", "F: HTTP Error 403: Forbidden"]}
+{"updated": "2026-11-08T04:06:12.581255+00:00", "leagues": {}, "errors": ["longueur de la cle: 16", "P: HTTP 403: {\"get\": \"\",\"parameters\": [],\"errors\": {\"token\": \"Invalid API key, please check your request and credentials.\",\"error\": \"4xSe\"},\"results\": 0,\"paging\": {\"current\": 1,\"total\": 1},\"response\": []}"]}
