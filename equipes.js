@@ -1,5 +1,5 @@
 (function(){
-var S=null,cur='P',LG={P:'Premier League',E:'La Liga',I:'Serie A',B:'Bundesliga',F:'Ligue 1'};
+var S=null,cur='P',LG={P:'Premier League',E:'La Liga',I:'Serie A',B:'Bundesliga',F:'Ligue 1',C:'Ligue des champions'};
 function g(i){return document.getElementById(i)}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function short(t){return t.replace(/ (FC|AFC|CF)$/,'')}
